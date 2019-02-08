@@ -53,8 +53,8 @@
     b) Existence of a DIV with ID "flash-message".
      */
     showAlert(msg, bootstrapContext, autoCloseTimeMs) {
-      let icon;
-      let bootstrapClass;
+      var icon;
+      var bootstrapClass;
       bootstrapClass = bootstrapContext;
 
       switch (bootstrapContext) {
@@ -93,8 +93,8 @@
     }
 
     handleAjaxError(jqXHR, textStatus, errorThrown) {
-      let msg;
-      let report = false;
+      var msg;
+      var report = false;
 
       if (jqXHR.status === 0) {
         msg = "Could not connect to server. Please check your " +
