@@ -7,6 +7,9 @@ class User < ApplicationRecord
   # Roles used by the authorization setup
   enum role: { user: 0, admin: 1 }
 
+  
+
+
   # **We should NOT validate e-mail uniqueness, e-mail regex or password
   # confirmation here**. Devise's Validatable module is enabled so it already
   # validates those attributes (in the registerable form and the user management
@@ -20,9 +23,17 @@ class User < ApplicationRecord
   # Callback to set the default role of new records
   after_initialize :set_default_role, if: :new_record?
 
-  devise :confirmable, :database_authenticatable, :lockable, :registerable,
+  devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :timeoutable, :trackable, :validatable
+         # :omniauthable
 
+  has_one :profile
+
+  after_create :init_profile
+
+  def init_profile
+    self.create_profile!
+  end
   # Allow a single Ransack search field to search the virtual attr 'full_name'
   # If first_name is 'John' and last_name is 'Doe', this will enable us to
   # search for 'John', 'Doe' or 'John Doe' using the 'cont' predicate.
@@ -53,13 +64,13 @@ class User < ApplicationRecord
 
   # TODO: extract this to a validator class
   def password_strength
-    minimum_length = 8
-    # Regex matches at least one lower case letter, one uppercase and one digit
-    complexity_regex = /\A(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])/
-    # When a user is updated but not its password, the password param is nil
-    if password.present? &&
-       (password.length < minimum_length || !password.match(complexity_regex))
-      errors.add :password, :weak_password
-    end
+    # minimum_length = 8
+    # # Regex matches at least one lower case letter, one uppercase and one digit
+    # complexity_regex = /\A(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])/
+    # # When a user is updated but not its password, the password param is nil
+    # if password.present? &&
+    #    (password.length < minimum_length || !password.match(complexity_regex))
+    #   errors.add :password, :weak_password
+    # end
   end
 end
