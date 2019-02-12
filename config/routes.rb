@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :posts
   root to: 'home#index'
 
   devise_for :users, controllers: {
@@ -15,4 +16,5 @@ Rails.application.routes.draw do
   resources :profiles, only: [:edit]
   # A non-resourceful route was used to place the contact form at /contact
   get 'contact' => 'contact_forms#new', as: 'contact'
+ # post '/update_user' => 'users/registrations#update'
 end

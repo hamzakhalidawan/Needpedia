@@ -5,13 +5,12 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
 
   def edit
-    byebug 
   end
 
 
 
   def update
-    byebug 
+    byebug
   end
 
   protected

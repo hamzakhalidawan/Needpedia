@@ -27,7 +27,8 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :timeoutable, :trackable, :validatable
          # :omniauthable
 
-  has_one :profile
+  has_one  :profile
+  has_many :posts
 
   after_create :init_profile
 

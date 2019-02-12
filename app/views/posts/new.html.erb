@@ -1,0 +1,25 @@
+<%= display_validation_errors(@post) %>
+
+<div class="panel panel-default devise-bs">
+  <div class="panel-heading">
+    <h4>Create a New <%= @post.post_type %> </h4>
+  </div>
+  <div class="panel-body">
+    <%= form_for(@post,
+                 url: posts_path,
+                 html: { method: :post }) do |f| %>
+
+      <div class="form-group required">
+        <%= f.label :title %>
+        <%= f.text_field :title, autofocus: true, class: "form-control" %>
+      </div>
+       <%= f.hidden_field :post_type, value: @post_type %>
+      <div class="form-group">
+        <%= f.label :body %> 
+        <%= f.text_area :body, class: "form-control" %>
+      </div>
+      <%= f.submit "Create Post", class: "btn btn-primary" %>
+    <% end %>
+      
+  </div>
+</div>
