@@ -6,7 +6,7 @@ class User < ApplicationRecord
 
   # Roles used by the authorization setup
   enum role: { user: 0, admin: 1 }
-
+  attr_accessor :summary, :description
   
 
 

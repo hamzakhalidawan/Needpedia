@@ -16,5 +16,6 @@ Rails.application.routes.draw do
   resources :profiles, only: [:edit]
   # A non-resourceful route was used to place the contact form at /contact
   get 'contact' => 'contact_forms#new', as: 'contact'
+  post '/users/edit' => 'users/registrations#update'
  # post '/update_user' => 'users/registrations#update'
 end
