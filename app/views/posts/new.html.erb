@@ -16,7 +16,8 @@
        <%= f.hidden_field :post_type, value: @post_type %>
       <div class="form-group">
         <%= f.label :body %> 
-        <%= f.text_area :body, class: "form-control" %>
+        <%= f.text_area :body, class: "tinymce", rows: 40 , cols: 120  %>
+        <%= tinymce %>
       </div>
       <%= f.submit "Create Post", class: "btn btn-primary" %>
     <% end %>

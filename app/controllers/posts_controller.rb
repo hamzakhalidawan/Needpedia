@@ -3,8 +3,12 @@ class PostsController < ApplicationController
 	before_action :authenticate_user!
 
 	def index
-		 policy_scope(Post)
-		@posts = Post.all
+		policy_scope(Post)
+		if params[:post_type]
+			@posts = Post.type(params[:post_type])
+		else
+			@posts = Post.all
+		end
 	end
 
 	def new
@@ -22,6 +26,7 @@ class PostsController < ApplicationController
 		@post.post_type = params[:post][:post_type]
 		@post.creator_id = @current_user.id 
 		@post.save
+		@posts = Post.all
 		render :index
 	end
 
