@@ -6,6 +6,7 @@ class PostsController < ApplicationController
 		policy_scope(Post)
 		if params[:post_type]
 			@posts = Post.type(params[:post_type])
+			@ptype = params[:post_type]
 		else
 			@posts = Post.all
 		end
@@ -14,25 +15,31 @@ class PostsController < ApplicationController
 	def new
 		@post = Post.new
 		authorize @post
-		@post_type = "Problem"
+		@post.post_type = params[:post_type]
 	end
 
 
 	def create 
-		@post = Post.new
+		@post = Post.new(post_params)
 		authorize @post
-		@post.title = params[:post][:title]
-		@post.body = params[:post][:body]
-		@post.post_type = params[:post][:post_type]
 		@post.creator_id = @current_user.id 
 		@post.save
-		@posts = Post.all
-		render :index
+		byebug
+		@posts = Post.type(params[:post][:post_type])
+		@ptype = params[:post][:post_type]
+		redirect_to "/posts?post_type=#{@ptype}"
 	end
 
 	def show
 		@post  = Post.friendly.find(params[:id])
 		authorize @post
 	end
+
+
+
+private
+def post_params
+  params.require(:post).permit(:title, :body, :all_tags,:post_type)
+end
 
 end
