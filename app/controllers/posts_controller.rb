@@ -24,7 +24,6 @@ class PostsController < ApplicationController
 		authorize @post
 		@post.creator_id = @current_user.id 
 		@post.save
-		byebug
 		@posts = Post.type(params[:post][:post_type])
 		@ptype = params[:post][:post_type]
 		redirect_to "/posts?post_type=#{@ptype}"
