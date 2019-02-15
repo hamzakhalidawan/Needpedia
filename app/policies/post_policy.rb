@@ -9,10 +9,15 @@ class PostPolicy < ApplicationPolicy
     end
   end
 
-  # Only admins may use this controller
+  
   %w[new? create? index?].each do |method_name|
     define_method(method_name) do
       user.present?
     end
   end
+
+  def show?
+    true
+  end
+
 end

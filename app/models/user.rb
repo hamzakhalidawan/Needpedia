@@ -28,6 +28,7 @@ class User < ApplicationRecord
          # :omniauthable
 
   has_many :posts
+  
 
   # Allow a single Ransack search field to search the virtual attr 'full_name'
   # If first_name is 'John' and last_name is 'Doe', this will enable us to

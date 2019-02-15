@@ -1,0 +1,12 @@
+
+    <%= link_to post_path(id: p.id), title: t('actions.show'),
+                'data-toggle' => 'tooltip' do %>
+        <span class="action-icon glyphicon glyphicon-search"></span>
+    <% end %>
+
+<% if can_edit? p %>
+    <%= link_to edit_admin_user_path(user), title: t('actions.edit'),
+                'data-toggle' => 'tooltip' do %>
+        <span class="action-icon glyphicon glyphicon-pencil"></span>
+    <% end %>
+<% end %>

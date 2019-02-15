@@ -30,4 +30,9 @@ class PostsController < ApplicationController
 		render :index
 	end
 
+	def show
+		@post  = Post.friendly.find(params[:id])
+		authorize @post
+	end
+
 end
