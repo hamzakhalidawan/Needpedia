@@ -7,7 +7,7 @@
         <h4 class="media-heading"><%= link_to post.title, post_path(id: post.id) %></h4>
           <p class="text-right">By <%= post.user.full_name %></p>
           <div class="post-body">          
-           <%= post.body.truncate(200) %> 
+           <%= post.body.truncate(200).html_safe %> 
           </div>
           <ul class="list-inline list-unstyled">
         <li><span><i class="glyphicon glyphicon-calendar"></i> <%= post.created_at %> </span></li>
