@@ -1,4 +1,5 @@
-<script type="text/javascript" src="http://github.com/downloads/jonDowdle/jqTaggable/jquery.taggable.min.js"></script>
+<script src="javascripts/tag-it.js" type="text/javascript" charset="utf-8"></script>
+<link href="stylesheets/jquery.tagit.css" rel="stylesheet" type="text/css">
 
 <%= display_validation_errors(@post) %>
 
@@ -16,16 +17,18 @@
         <%= f.text_field :title, autofocus: true, class: "form-control" %>
       </div>
        <%= f.hidden_field :post_type, value: @post.post_type %>
+      
+      <div class="form-group">
+        <%= label_tag "Area" %>
+      <%= f.text_field :all_tags, placeholder: "Areas separated with comma", data: {role: "tagsinput"} %>
+      </div>
+
       <div class="form-group">
         <%= f.label :body %> 
         <%= f.text_area :body, class: "tinymce", rows: 40 , cols: 120  %>
         <%= tinymce %>
       </div>
-      <div class="form-group">
-        <%= label_tag "Area" %>
-      <%= f.text_field :all_tags, placeholder: "Areas separated with comma", data: {role: "tagsinput"} %>
       
-      </div>
 
 
       <%= f.submit "Create Post", class: "btn btn-primary" %>
@@ -33,3 +36,13 @@
       
   </div>
 </div>
+
+
+<script type="text/javascript">
+  $(document).ready(function() {
+        $("#post_all_tags").tagit({
+          availableTags: ["Needpedia"],
+          tagLimit: 3
+        });
+    });
+</script>

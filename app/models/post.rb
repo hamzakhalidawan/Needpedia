@@ -10,7 +10,7 @@ class Post < ApplicationRecord
 	
 	# Scopes
 	scope :type, ->(post_type){ where(post_type: post_type )}
-
+	scope :with_tags, -> (tags) { joins(:tags).where("tags.name IN (?)",tags) }
 	# Validations 
 	validates :title, :body, presence: true
 

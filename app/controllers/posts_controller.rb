@@ -4,13 +4,19 @@ class PostsController < ApplicationController
 
 	def index
 		policy_scope(Post)
-		if params[:post_type]
+		@ptype = params[:post_type] 			
+		
+		case params[:tags_filter]
+		when nil
+			@tags_count = Tag.all.map{|_|  [_.name, _.posts.type(params[:post_type]).count] }
 			@posts = Post.type(params[:post_type])
-			@ptype = params[:post_type]
 		else
-			@posts = Post.all
+			@posts = Post.type(params[:post_type]).with_tags([params[:tags_filter]])
+			q_tag = params[:tags_filter].strip.split(',').first
+			@tags_count = Tag.where(name: q_tag).map{|_|  [_.name, _.posts.type(params[:post_type]).count] }
 		end
 	end
+
 
 	def new
 		@post = Post.new
@@ -23,10 +29,13 @@ class PostsController < ApplicationController
 		@post = Post.new(post_params)
 		authorize @post
 		@post.creator_id = @current_user.id 
-		@post.save
-		@posts = Post.type(params[:post][:post_type])
-		@ptype = params[:post][:post_type]
-		redirect_to "/posts?post_type=#{@ptype}"
+		if @post.save
+			@posts = Post.type(params[:post][:post_type])
+			@ptype = params[:post][:post_type]
+			redirect_to "/posts?post_type=#{@ptype}"
+		else 
+			render :new
+		end
 	end
 
 	def show

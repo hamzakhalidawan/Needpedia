@@ -4,7 +4,11 @@
         <img class="media-object" src="http://placekitten.com/150/150">
       </a>
       <div class="media-body">
-        <h4 class="media-heading"><%= link_to post.title, post_path(id: post.id) %></h4>
+        <h4 class="media-heading"><%= link_to post.title, post_path(id: post.id) %>
+          <% post.all_tags.split(", ").each do |tag_name| %>
+            <span class="label label-primary"><%= tag_name %></span>
+          <% end %>
+        </h4>
           <p class="text-right">By <%= post.user.full_name %></p>
           <div class="post-body">          
            <%= post.body.truncate(200).html_safe %> 

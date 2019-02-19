@@ -7,6 +7,14 @@
     <h1>All <%= @ptype.pluralize.capitalize %></h1>
   </div>
 </div>
+<div class="row">
+  <h1>Trending Areas</h1>
+  <ul>
+    <% @tags_count.each do |t| %> 
+      <li> <%= link_to t[0], "/posts?post_type=#{@ptype}&tags_filter=#{t[0]}" %> has <%= "#{t[1]} #{@ptype.pluralize.capitalize}" %>  </li>
+    <% end %>
+  </ul>
+</div>
 <div class="container">
 <% @posts.each do |post| %>
   <%= render partial: 'posts_list_item', locals: { post: post} %>
