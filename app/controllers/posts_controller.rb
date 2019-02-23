@@ -14,9 +14,17 @@ class PostsController < ApplicationController
 			@area = params[:term]
 			@tags_count = [[@area , 0]]
 		else
-			@posts = Post.type(params[:post_type]).with_tags([params[:tags_filter]])
+			if params[:parent_id]
+				@parent_id = params[:parent_id].to_i
+				@parent_post = Post.find_by_id @parent_id
+				@has_parent = true 	
+				@posts = Post.type(params[:post_type]).with_tags([params[:tags_filter]]).where(parent_post_id: params[:parent_id].to_i)
+				@tags_count = [[ @parent_post.title , @posts.count]]
+			else
+				@tags_count = Tag.where(name: @area).map{|_|  [_.name, _.posts.type(params[:post_type]).count] }
+				@posts = Post.type(params[:post_type]).with_tags([params[:tags_filter]])
+			end
 			@area = params[:tags_filter].strip.split(',').first
-			@tags_count = Tag.where(name: @area).map{|_|  [_.name, _.posts.type(params[:post_type]).count] }
 		end
 	end
 

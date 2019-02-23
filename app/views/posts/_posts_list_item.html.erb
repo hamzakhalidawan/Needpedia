@@ -9,10 +9,19 @@
             <%= area_label(post.post_type, tag_name) %>
           <% end %>
           <% if post.post_type == 'Problem'%>
+            <%= link_to posts_path(post_type: 'Idea', tags_filter: post.all_tags.split(", ")[0], parent_id: post.id) do %>
             <span class="badge badge-success"><%= post.ideas.count %> Ideas</span>
+            <% end %>
+            <%= link_to posts_path(post_type: 'Proposal', tags_filter: post.all_tags.split(", ")[0], parent_id: post.id) do %>
             <span class="badge badge-info"><%= post.proposals.count %> Proposals</span>
-            
+            <% end %>
           <% end %>
+          <% if post.post_type == 'Idea'%>
+            <%= link_to posts_path(post_type: 'Proposal', tags_filter: post.all_tags.split(", ")[0], parent_id: post.id) do %>
+            <span class="badge badge-info"><%= post.proposals.count %> Proposals</span>
+            <% end %>
+          <% end %>
+
         </h4>
           <p class="text-right">By <%= post.user.full_name %></p>
           <div class="post-body">          
@@ -44,6 +53,14 @@
             <%= link_to new_post_path(post_type: "Idea",area: post.area, parent_post_id: post.id), class: "btn btn-primary" do %>
               <span class="glyphicon glyphicon-plus"></span>
                 Give an Idea
+            <% end %>
+          </li>
+        <% end %>
+        <% if post.post_type == 'Idea'%> 
+          <li>
+            <%= link_to post_path(id: post.parent_post_id), class: "btn btn-primary" do %>
+              <span class="glyphicon glyphicon-plus"></span>
+                See the Problem
             <% end %>
           </li>
         <% end %>

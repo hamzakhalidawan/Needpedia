@@ -8,13 +8,17 @@
       <h1>All <%= @ptype.pluralize.capitalize %></h1>
     </div>
   <% else %>
+    
+
+  <% unless @has_parent %>
     <div class="page-header">
     <%= link_to new_post_path(post_type: @ptype, area: @area), class: "btn btn-primary" do %>
       <span class="glyphicon glyphicon-plus"></span>
         Create a new <%= @ptype %> in <%= @area %>
     <% end %>
     <h1>All <%= @ptype.pluralize.capitalize %> in <strong><%= @area %></strong></h1>
-  </div>
+   </div>
+   <% end %>
   <% end %>
   
 </div>
@@ -31,8 +35,13 @@
     </ul>
   <% else %>
     <h1>
-      <% @tags_count.each do |t| %> 
-        <%= link_to t[0], "/posts?post_type=#{@ptype}&tags_filter=#{t[0]}" %> has <%= "#{t[1]} #{@ptype.pluralize.capitalize}" %> 
+      <% if @has_parent  %>
+         <%= link_to @tags_count[0][0], post_path(@parent_post.id) %> has <%= "#{@tags_count[0][1]} #{@ptype.pluralize.capitalize}" %> 
+      <% else %>
+        <% @tags_count.each do |t| %> 
+          <li> <%= link_to t[0], "/posts?post_type=#{@ptype}&tags_filter=#{t[0]}" %> has <%= "#{t[1]} #{@ptype.pluralize.capitalize}" %>  </li>
+        <% end %>
+
       <% end %>
     </h1>
   <% end %> 
