@@ -4,10 +4,12 @@
 <div id="logo" class="text-center">
 <h1>NeedPedia</h1><p>Slogan of needpedia!</p>
 </div>
-<form role="form" id="form-buscar" url="/posts/search">
+<form role="form" id="form-buscar" action=<%= posts_path %> >
 <div class="form-group">
 <div class="input-group">
 <input id="1" class="form-control" type="text" name="term" placeholder="Type in any Area to search its Pronblems, Ideas and Proposals." required/>
+<input id="1" class="form-control" type="hidden" name="tags_filter" value="search" />
+<input id="1" class="form-control" type="hidden" name="post_type" value="Problem" />
 <span class="input-group-btn">
 <button class="btn btn-success" type="submit">
 <i class="glyphicon glyphicon-search" aria-hidden="true"></i> Search

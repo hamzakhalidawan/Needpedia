@@ -5,11 +5,14 @@ class PostsController < ApplicationController
 	def index
 		policy_scope(Post)
 		@ptype = params[:post_type] 			
-		
 		case params[:tags_filter]
 		when nil
 			@tags_count = Tag.all.map{|_|  [_.name, _.posts.type(params[:post_type]).count] }
 			@posts = Post.type(params[:post_type])
+		when 'search'
+			@posts = Post.with_tags([params[:term]])
+			@area = params[:term]
+			@tags_count = [[@area , 0]]
 		else
 			@posts = Post.type(params[:post_type]).with_tags([params[:tags_filter]])
 			@area = params[:tags_filter].strip.split(',').first
@@ -23,17 +26,16 @@ class PostsController < ApplicationController
 		authorize @post
 		@post.post_type = params[:post_type]
 		@post.all_tags=params[:area] if params[:area]
+		@post.parent_post_id = params[:parent_post_id].to_i if params[:parent_post_id]
 	end
 
 
 	def create 
 		@post = Post.new(post_params)
 		authorize @post
-		@post.creator_id = @current_user.id 
+		@post.creator_id = @current_user.id  
 		if @post.save
-			@posts = Post.type(params[:post][:post_type])
-			@ptype = params[:post][:post_type]
-			redirect_to "/posts?post_type=#{@ptype}"
+			redirect_to post_path @post
 		else 
 			render :new
 		end
@@ -57,7 +59,8 @@ class PostsController < ApplicationController
 
 private
 def post_params
-  params.require(:post).permit(:title, :body, :all_tags,:post_type)
+  params.require(:post).permit(:title, :body, :all_tags,:post_type, :parent_post_id)
 end
+
 
 end

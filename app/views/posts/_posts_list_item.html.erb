@@ -6,7 +6,12 @@
       <div class="media-body">
         <h4 class="media-heading"><%= link_to post.title, post_path(id: post.id) %>
           <% post.all_tags.split(", ").each do |tag_name| %>
-            <span class="label label-primary"><%= tag_name %></span>
+            <%= area_label(post.post_type, tag_name) %>
+          <% end %>
+          <% if post.post_type == 'Problem'%>
+            <span class="badge badge-success"><%= post.ideas.count %> Ideas</span>
+            <span class="badge badge-info"><%= post.proposals.count %> Proposals</span>
+            
           <% end %>
         </h4>
           <p class="text-right">By <%= post.user.full_name %></p>
@@ -32,6 +37,22 @@
               <span><i class="fa fa-twitter-square"></i></span>
               <span><i class="fa fa-google-plus-square"></i></span>
             </li>
+      </ul>
+      <ul class="list-inline list-unstyled">
+        <% if post.post_type == 'Problem'%> 
+          <li>
+            <%= link_to new_post_path(post_type: "Idea",area: post.area, parent_post_id: post.id), class: "btn btn-primary" do %>
+              <span class="glyphicon glyphicon-plus"></span>
+                Give an Idea
+            <% end %>
+          </li>
+        <% end %>
+        <li>
+          <%= link_to new_post_path(post_type: "Proposal", area: post.area, parent_post_id: post.id), class: "btn btn-primary" do %>
+            <span class="glyphicon glyphicon-plus"></span>
+              Give a Proposal
+          <% end %>
+        </li>
       </ul>
        </div>
     </div>

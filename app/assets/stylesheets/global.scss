@@ -284,3 +284,60 @@ dt, dd {
     color: $link-hover-color !important;
   }
 }
+
+$color_1: #ffffff;
+$background_color_1: #999999;
+$background_color_2: #b94a48;
+$background_color_3: #953b39;
+$background_color_4: #f89406;
+$background_color_5: #c67605;
+$background_color_6: #468847;
+$background_color_7: #356635;
+$background_color_8: #3a87ad;
+$background_color_9: #2d6987;
+$background_color_10: #333333;
+
+.badge {
+  padding: 1px 9px 2px;
+  font-size: 12.025px;
+  font-weight: bold;
+  white-space: nowrap;
+  color: $color_1;
+  background-color: $background_color_1;
+  -webkit-border-radius: 9px;
+  -moz-border-radius: 9px;
+  border-radius: 9px;
+  &:hover {
+    color: $color_1;
+    text-decoration: none;
+    cursor: pointer;
+  }
+}
+.badge-error {
+  background-color: $background_color_2;
+  &:hover {
+    background-color: $background_color_3;
+  }
+}
+.badge-warning {
+  background-color: $background_color_4;
+  &:hover {
+    background-color: $background_color_5;
+  }
+}
+.badge-success {
+  background-color: $background_color_6;
+  &:hover {
+    background-color: $background_color_7;
+  }
+}
+.badge-info {
+  background-color: $background_color_8;
+  &:hover {
+    background-color: $background_color_9;
+  }
+}
+.badge-inverse {
+  background-color: $background_color_10;
+}
+
