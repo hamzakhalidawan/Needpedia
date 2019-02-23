@@ -7,6 +7,8 @@ class Post < ApplicationRecord
 	belongs_to :user, foreign_key: "creator_id", class_name: "User"
 	has_many :taggings
 	has_many :tags, through: :taggings
+	has_many :ideas, class_name: "Post", foreign_key: "parent_post_id"
+	has_many :proposals, class_name: "Post", foreign_key: "parent_post_id"
 	
 	# Scopes
 	scope :type, ->(post_type){ where(post_type: post_type )}
@@ -17,9 +19,9 @@ class Post < ApplicationRecord
 
 
 	def all_tags=(names)
-  self.tags = names.split(",").map do |name|
-      Tag.where(name: name.strip).first_or_create!
-  end
+		self.tags = names.split(",").map do |name|
+		    Tag.where("name ILIKE ?",name.strip).first_or_create!
+		end
 	end
 
 	def all_tags

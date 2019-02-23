@@ -12,8 +12,8 @@ class PostsController < ApplicationController
 			@posts = Post.type(params[:post_type])
 		else
 			@posts = Post.type(params[:post_type]).with_tags([params[:tags_filter]])
-			q_tag = params[:tags_filter].strip.split(',').first
-			@tags_count = Tag.where(name: q_tag).map{|_|  [_.name, _.posts.type(params[:post_type]).count] }
+			@area = params[:tags_filter].strip.split(',').first
+			@tags_count = Tag.where(name: @area).map{|_|  [_.name, _.posts.type(params[:post_type]).count] }
 		end
 	end
 
@@ -22,6 +22,7 @@ class PostsController < ApplicationController
 		@post = Post.new
 		authorize @post
 		@post.post_type = params[:post_type]
+		@post.all_tags=params[:area] if params[:area]
 	end
 
 
@@ -42,6 +43,15 @@ class PostsController < ApplicationController
 		@post  = Post.friendly.find(params[:id])
 		authorize @post
 	end
+
+	# def search
+	# 	term = params[:term]
+	# 	@posts_array = Tag.where("name ILIKE ?","%#{term}%").includes(:posts).map {|t| [t.name, t.posts_count, t.posts] unless t.posts.empty?}.compact
+	# 	# [ tag_name, total_posts, posts_array ]
+
+	# 	byebug 
+	# end
+
 
 
 
