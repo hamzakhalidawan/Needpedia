@@ -54,7 +54,7 @@
             <% end %>
           </li>
         <% end %>
-        <% if @post.post_type == 'Idea'%> 
+        <% if @post.post_type == 'Idea' and  @post.parent_post_id != nil %> 
           <li>
             <%= link_to post_path(id: @post.parent_post_id), class: "btn btn-primary" do %>
               <span class="glyphicon glyphicon-zoom-in"></span>

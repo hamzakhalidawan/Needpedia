@@ -7,12 +7,24 @@ class PostsController < ApplicationController
 		@ptype = params[:post_type] 			
 		case params[:tags_filter]
 		when nil
-			@tags_count = Tag.all.map{|_|  [_.name, _.posts.type(params[:post_type]).count] }
-			@posts = Post.type(params[:post_type])
+				@posts = []
+				@all_tags = Tag.all.map do |_| 
+				[ _.name, 
+					_.posts.type('Problem').count,
+					_.posts.type('Idea').count,
+					_.posts.type('Proposal').count
+				]
+			end
 		when 'search'
-			@posts = Post.with_tags([params[:term]])
-			@area = params[:term]
-			@tags_count = [[@area , 0]]
+			term = @area = params[:term]
+			@all_tags = Tag.where("name ILIKE ?","%#{term}%").map do |_| 
+				[ _.name, 
+					_.posts.type('Problem').count,
+					_.posts.type('Idea').count,
+					_.posts.type('Proposal').count
+				]
+			end 
+			render :search_index
 		else
 			if params[:parent_id]
 				@parent_id = params[:parent_id].to_i
@@ -28,6 +40,9 @@ class PostsController < ApplicationController
 		end
 	end
 
+
+	def search_index
+	end
 
 	def new
 		@post = Post.new

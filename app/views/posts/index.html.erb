@@ -27,12 +27,36 @@
 
 <div class="row">
   <% if @area.nil? %>
-    <h1>Trending Areas</h1>
-    <ul>
-      <% @tags_count.each do |t| %> 
-        <li> <%= link_to t[0], "/posts?post_type=#{@ptype}&tags_filter=#{t[0]}" %> has <%= "#{t[1]} #{@ptype.pluralize.capitalize}" %>  </li>
-      <% end %>
-    </ul>
+    <ul class="list-group">
+        <% @all_tags.each do |tag| %>
+        <li class="list-group-item"><strong><%= tag[0] %></strong> has
+          <%= link_to raw("<label class='label label-danger'><span class='badge'>#{tag[1]}</span>Problems</label>"), "/posts?post_type=Problem&tags_filter=#{tag[0]}" %>
+          <%= link_to raw("<label class='label label-success'><span class='badge'>#{tag[2]}</span>Ideas</label>"), "/posts?post_type=Idea&tags_filter=#{tag[0]}" %>
+          and
+          <%= link_to raw("<label class='label label-info'><span class='badge'>#{tag[3]}</span>Proposals</label>"), "/posts?post_type=Proposal&tags_filter=#{tag[0]}" %>
+        
+        
+        
+          <span class="badge badge-error">
+          <%= link_to new_post_path(post_type: 'Problem', area: tag[0]) do %>
+            <span class="glyphicon glyphicon-plus"></span>
+              new Problem in "<%= tag[0] %>"
+          <% end %>
+          </span>  
+          <span class="badge badge-info">
+          <%= link_to new_post_path(post_type: 'Proposal', area: tag[0]) do %>
+            <span class="glyphicon glyphicon-plus"></span>
+              new Proposal in "<%= tag[0] %>"
+          <% end %>
+          </span>
+          </li>
+         <% end %>
+      </ul>  
+
+
+
+
+
   <% else %>
     <h1>
       <% if @has_parent  %>
@@ -46,6 +70,8 @@
     </h1>
   <% end %> 
 </div>
+
+
 <div class="container">
 <% @posts.each do |post| %>
   <%= render partial: 'posts_list_item', locals: { post: post} %>
